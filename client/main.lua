@@ -420,7 +420,8 @@ end
 function MenuOwners()
     QBCore.Functions.TriggerCallback('apartments:GetAvailableApartments', function(apartments)
         if next(apartments) == nil then
-            QBCore.Functions.Notify(Lang:t('error.nobody_home'), "error", 3500)
+            --QBCore.Functions.Notify(Lang:t('error.nobody_home'), "error", 3500)
+            exports['okokNotify']:Alert('No one Home', Lang:t('error.nobody_home'), 3000, 'error')
             CloseMenuFull()
         else
             local apartmentMenu = {
@@ -592,7 +593,8 @@ RegisterNetEvent('apartments:client:SpawnInApartment', function(apartmentId, apa
     if RangDoorbell ~= nil then
         local doorbelldist = #(pos - vector3(Apartments.Locations[RangDoorbell].coords.enter.x, Apartments.Locations[RangDoorbell].coords.enter.y,Apartments.Locations[RangDoorbell].coords.enter.z))
         if doorbelldist > 5 then
-            QBCore.Functions.Notify(Lang:t('error.to_far_from_door'))
+            --QBCore.Functions.Notify(Lang:t('error.to_far_from_door'))
+            exports['okokNotify']:Alert('Too Far Away', Lang:t('error.to_far_from_door'), 3000, 'warning')
             return
         end
     end
@@ -639,7 +641,8 @@ end)
 RegisterNetEvent('apartments:client:RingDoor', function(player, house)
     CurrentDoorBell = player
     TriggerServerEvent("InteractSound_SV:PlayOnSource", "doorbell", 0.1)
-    QBCore.Functions.Notify(Lang:t('info.at_the_door'))
+    --QBCore.Functions.Notify(Lang:t('info.at_the_door'))
+    exports['okokNotify']:Alert('Doorbell', Lang:t('info.at_the_door'), 5000, 'info')
 end)
 
 RegisterNetEvent('apartments:client:DoorbellMenu', function()
@@ -666,7 +669,8 @@ end)
 
 RegisterNetEvent('apartments:client:OpenDoor', function()
     if CurrentDoorBell == 0 then
-        QBCore.Functions.Notify(Lang:t('error.nobody_at_door'))
+        --QBCore.Functions.Notify(Lang:t('error.nobody_at_door'))
+        exports['okokNotify']:Alert('Front Door', Lang:t('error.nobody_at_door'), 3000, 'error')
         return
     end
     TriggerServerEvent("apartments:server:OpenDoor", CurrentDoorBell, CurrentApartment, ClosestHouse)
